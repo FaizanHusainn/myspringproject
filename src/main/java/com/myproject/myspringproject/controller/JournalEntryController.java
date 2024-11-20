@@ -22,7 +22,6 @@ public class JournalEntryController {
   @Autowired
   private JournalEntryService journalEntryService;
 
-
   // to enter the data in the DB
   @PostMapping
   public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry){
@@ -38,7 +37,6 @@ public class JournalEntryController {
   // To get the data form the DB -- this is calling the getALl() method defied in the JournalEntryService class
   @GetMapping
     public ResponseEntity<?> getAll() {
-    System.out.println("Get all call");
     List<JournalEntry> all = journalEntryService.getAll();
 
     if( all != null && !all.isEmpty()){

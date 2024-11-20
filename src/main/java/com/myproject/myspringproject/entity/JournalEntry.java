@@ -14,13 +14,14 @@ import java.util.Date;
 
 @Document(collection = "JournalEntries")
 @Data
+@NoArgsConstructor
 public class JournalEntry {
     @Id
     private ObjectId id;
+    @NonNull
     private String title;
     private String content;
     private LocalDateTime date;
 
 }
 
-//new diff code
