@@ -1,6 +1,7 @@
 package com.myproject.myspringproject.service;
 
 import com.myproject.myspringproject.entity.JournalEntry;
+import com.myproject.myspringproject.entity.User;
 import com.myproject.myspringproject.repository.JournalEntryRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +16,30 @@ public class JournalEntryService {
 
     @Autowired
     private JournalEntryRepository journalEntryRepository;
+    @Autowired
+    UserService userService;
 
-    public void saveEntry( JournalEntry journalEntry){
+    public void saveEntry(JournalEntry journalEntry, String username){
         try{
+            // Finding the user from the user table
+            User user = userService.findByUserName(username);
+            // set the date to save the entry in the journalEntry in the JournalEntries table
             journalEntry.setDate(LocalDateTime.now());
-            journalEntryRepository.save(journalEntry);
+            // This will save the updated list in the Journal Entry table and give the save journal entry list
+            JournalEntry save = journalEntryRepository.save(journalEntry);
+            // this will add the list of journal entries in the journal entry section of user table
+            user.getJournalEntries().add(save);
+            // this will save the journalEntries in the user table
+            userService.saveEntry(user);
+
         }catch (Exception e){
 
         }
 
+    }
+
+    public void saveEntry(JournalEntry journalEntry){
+        journalEntryRepository.save(journalEntry);
     }
 
     // this method calling the interface JournalEntryRepository which extends mongoDB services which contains all mongo methods
@@ -36,7 +52,11 @@ public class JournalEntryService {
         return journalEntryRepository.findById(id);
     }
 
-    public void deleteById(ObjectId id){
+    public void deleteById(ObjectId id, String username){
+        User user = userService.findByUserName(username);
+        user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+        userService.saveEntry(user);
+
         journalEntryRepository.deleteById(id);
     }
 
