@@ -21,6 +21,8 @@ public class JournalEntry {
     private String content;
     private LocalDateTime date;
 
+    //faizan aur anshika aur uska bhai
+
 }
 
 //introducing new feature code
