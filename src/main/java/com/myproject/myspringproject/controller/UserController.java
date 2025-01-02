@@ -47,4 +47,9 @@ public class UserController {
     }
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("{username}")
+    public User getUserByUsername(@PathVariable String username){
+        return userService.findByUserName(username);
+    }
 }

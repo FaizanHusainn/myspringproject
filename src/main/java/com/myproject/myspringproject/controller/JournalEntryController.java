@@ -64,6 +64,7 @@ public class JournalEntryController {
     journalEntryService.deleteById(myId, username);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
+
   @PutMapping("id/{username}/{myId}")
   public ResponseEntity<?> updateJournalEntryById(@PathVariable ObjectId myId, @RequestBody JournalEntry newEntry, @PathVariable String username){
 
